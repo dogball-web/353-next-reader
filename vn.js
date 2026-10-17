@@ -1,6 +1,6 @@
 /* Story draft v0.4. Character identities never specify Shen/An/He's gender. */
-const NAME_CLASS={'沈秋':'name-qiu','賴老師':'name-lai','趙國雄':'name-zhao','林心愛':'name-lin'};
-const AVATARS={'何稻禾':'avatar-he.png','小禾':'avatar-he.png','許安純':'avatar-an.png','小安':'avatar-an.png','賴老師':'avatar-lai.png'};
+const NAME_CLASS={'沈秋':'name-qiu','賴老師':'name-lai','趙國雄':'name-zhao','林心愛':'name-lin','心理師':'name-counselor'};
+const AVATARS={'何稻禾':'avatar-he.webp','小禾':'avatar-he.webp','許安純':'avatar-an.webp','小安':'avatar-an.webp','賴老師':'avatar-lai.webp'};
 function named(n){return `<span class="character-name ${NAME_CLASS[n]||''}">${esc(n)}</span>`}
 function avatar(n){return AVATARS[n]?`<img class="profile-avatar" src="assets/${AVATARS[n]}" alt="${n==='賴老師'?'賴老師與太太的合照':n==='何稻禾'||n==='小禾'?'河童插畫頭貼':'寫實鵪鶉蛋頭貼'}" width="40" height="40">`:''}
 const VN={
@@ -64,7 +64,7 @@ const VN={
       ],
       [
         "沈秋",
-        "對，所以我想找原本整理這些內容的人確認。Bailey，能幫我問一下來源嗎"
+        "對，所以我想找原本整理這些內容的人確認。稻禾，能幫我問一下來源嗎"
       ],
       [
         "何稻禾",
@@ -176,7 +176,7 @@ const VN={
       ],
       [
         "沈秋",
-        "Jamie是真的很怕。當時那些不相信你的人，不是Jamie，也不是Bailey。"
+        "稻禾跟安純……我是說，我的朋友，他們真的很怕。當時那些不相信學姐的人，不是他們。"
       ],
       [
         "林心愛",
@@ -407,7 +407,7 @@ const VN={
   "counsel1": {
     "era": 2012,
     "next": "counsel2",
-    "background": "counseling-room.png",
+    "background": "counseling-room.webp",
     "label": "林心愛的回憶 ／ 校園諮商室",
     "narrator": "林心愛",
     "lines": [
@@ -468,7 +468,7 @@ const VN={
   "counsel2": {
     "era": 2012,
     "next": "counsel3",
-    "background": "counseling-room.png",
+    "background": "counseling-room.webp",
     "label": "林心愛的回憶 ／ 校園諮商室",
     "narrator": "林心愛",
     "lines": [
@@ -525,7 +525,7 @@ const VN={
   "counsel3": {
     "era": 2012,
     "next": "meetingResume",
-    "background": "counseling-room.png",
+    "background": "counseling-room.webp",
     "label": "林心愛的回憶 ／ 校園諮商室",
     "narrator": "林心愛",
     "lines": [
@@ -619,7 +619,7 @@ const VN={
     "lines": [
       [
         "沈秋",
-        "這些內容原本在學姐那裡。傳到Bailey或Jamie手上的，會不會也是學姐傳出去的？"
+        "這些內容原本在學姐那裡。傳到稻禾或安純手上的，會不會也是學姐傳出去的？"
       ],
       [
         "林心愛",
@@ -651,12 +651,12 @@ const DRAFTS=[
 ];
 let vnUnlockAt=0;
 function startVN(key){state.vnKey=key;state.vnStep=0;vnUnlockAt=key==='memory'?Date.now()+MESSAGE_DELAY:0;phase('vn')}
-function vn(){if(state.vnKey==='memory')return fineFollowup();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.background||(block.era===2018?'window-w2-closed.png':'writing-desk-2b.png')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
+function vn(){if(state.vnKey==='memory')return fineFollowup();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.background||(block.era===2018?'window-w2-closed.webp':'writing-desk-2b.webp')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
 function vnDone(){const next=VN[state.vnKey].next;if(VN[next]&&next!=='return2012'){startVN(next);return}if(next==='meeting'){startVN('meeting');return}if(next==='to2018'){if(state.workerFinished){startVN(state.confrontation?'return2012':'ending3');return}state.found=true;evidence('paper');phase('compare');return}if(next==='return2012'){state.workerFinished=true;startVN(state.confrontation?'return2012':'ending3');return}if(next==='grading'){state.hidden=true;state.teacherBack=1;phase('grading');return}phase(next)}
 function warmCheck(){return `<section class="workspace"><span class="eyebrow">2012 ／ 三份文字的核對</span><h2>「如果可以」從哪裡來？</h2><div class="source">學姐的紀錄與許安純保留的紙本，都沒有這句。<br>沈秋親手刪去威脅，親手改成溫和邀請。</div>${['由沈秋主動改寫','因此所有差異都是沈秋改的','這證明信上的處罰會生效'].map((t,i)=>btn('warmcheck'+i,t,'choice')).join('')}<p class="feedback">${esc(state.warmFeedback||'先確認這一句的來源；其他字詞的變化仍未釐清。')}</p></section>`}
 function draftCompare(){const d=DRAFTS[state.draftPage||0],picked=state.draftPicked||[];return `<section class="draft-workspace"><div class="draft-heading"><span>2012 ／ 林心愛帶來的草稿</span><h2>來回翻閱，點選能互相支持的句子。</h2><p>選取與取消不算指認；請各選一段：原稿原本如何結束、新增了什麼威脅、為什麼要新增。整理好再提出判斷。</p></div><nav class="draft-tabs">${DRAFTS.map((x,i)=>btn('draftpage'+i,x.label,i===(state.draftPage||0)?'primary':'secondary')).join('')}</nav><article class="draft-page"><h3>${d.label}</h3>${d.lines.map(([id,t])=>`<button class="draft-sentence ${picked.includes(id)?'picked':''}" data-act="pick:${id}">${esc(t)}</button>`).join('')}</article><section class="draft-tray"><b>暫存依據 ${picked.length}／3</b>${picked.map(id=>{const l=DRAFTS.flatMap(x=>x.lines).find(x=>x[0]===id);return btn('pick:'+id,esc(l[1])+' ×','secondary')}).join('')}</section><div class="draft-response">${named('林心愛')}<p>${esc(state.draftFeedback||'你要說是哪一段改了，先把前後的字找給我看。')}</p></div>${btn('accuse','提出判斷：威脅句是學姐後來新增的','primary',picked.length!==3)}</section>`}
 function workQuestions(){const qs=[['信先交給你們學校，對吧？','賴老師','嗯，我先收著。你把工單填好就行。'],['你剛提到的林心愛，是以前的學生？','賴老師','心愛？記得啊，論文磨了好久。但是哪幾次在353談了什麼項目，我可記不得。'],['原來就有「如果可以……」這句嗎？','賴老師','我也不確定。剛才隨口說的，別照我的記性去填紀錄。']];return `<section class="workspace"><span class="eyebrow">2018年1月 ／ 趙國雄</span><h2>收工前，問老師幾句</h2><p>你能確定的是紙從固定座裡取出；老師的回憶不一定準確，因為他曾親口說他有健忘的老毛病。</p>${qs.map((q,i)=>`<div class="work-topic">${btn('worktopic'+i,q[0],'secondary')}${(state.workTopics||[]).includes(i)?'<p>'+named(q[1])+'：'+q[2]+'</p>':''}</div>`).join('')}${btn('workfinish','填妥維修單，交接紙本 →')}</section>`}
-function endingChoice(){return `<section class="vn-stage"><img class="vn-backdrop" src="assets/writing-desk-2b.png" alt="2012年353的桌面"><div class="vn-era">2012年 ／ 沈秋</div><div class="vn-dialogue"><div class="vn-speaker">${named('林心愛')}</div><p>你希望下一個人讀到它，還是不希望？</p><div class="ending-options">${btn('ending1','希望有人願意讀到','secondary')}${btn('ending2','不希望再有人收到','secondary')}</div></div></section>`}
+function endingChoice(){return `<section class="vn-stage"><img class="vn-backdrop" src="assets/writing-desk-2b.webp" alt="2012年353的桌面"><div class="vn-era">2012年 ／ 沈秋</div><div class="vn-dialogue"><div class="vn-speaker">${named('林心愛')}</div><p>你希望下一個人讀到它，還是不希望？</p><div class="ending-options">${btn('ending1','希望有人願意讀到','secondary')}${btn('ending2','不希望再有人收到','secondary')}</div></div></section>`}
 
 // Set this to the user's recording asset when it is supplied; no fabricated audio.
 const LIN_VOICE_SRC='';
