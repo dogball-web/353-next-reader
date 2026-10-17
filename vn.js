@@ -2,7 +2,8 @@
 const NAME_CLASS={'沈秋':'name-qiu','賴老師':'name-lai','趙國雄':'name-zhao','林心愛':'name-lin','心理師':'name-counselor'};
 const AVATARS={'何稻禾':'avatar-he.webp','小禾':'avatar-he.webp','許安純':'avatar-an.webp','小安':'avatar-an.webp','賴老師':'avatar-lai.webp'};
 function named(n){return `<span class="character-name ${NAME_CLASS[n]||''}">${esc(n)}</span>`}
-function avatar(n){return AVATARS[n]?`<img class="profile-avatar" src="assets/${AVATARS[n]}" alt="${n==='賴老師'?'賴老師與太太的合照':n==='何稻禾'||n==='小禾'?'河童插畫頭貼':'寫實鵪鶉蛋頭貼'}" width="40" height="40">`:''}
+function avatar(n){return AVATARS[n]?`<button type="button" class="avatar-zoom" data-act="avatar:${esc(n)}" aria-label="放大${esc(n)}的頭像"><img class="profile-avatar" src="assets/${AVATARS[n]}" alt="${n==='賴老師'?'賴老師與太太的合照':n==='何稻禾'||n==='小禾'?'河童插畫頭貼':'寫實鵪鶉蛋頭貼'}" width="40" height="40"></button>`:''}
+
 const VN={
   "workStart": {
     "era": 2018,
@@ -650,7 +651,7 @@ const DRAFTS=[
  {label:'草稿C・交付前的完成頁',lines:[['c1','讀到這裡的人，請先不要看窗外。'],['c2','每收到一份，請在今天午夜以前親手完整謄寫或完整複製一份，交給下一個人。對方讀完，才算完成。'],['c3','不傳給下一個人，下一次獨自在353時，你會聽到有人從窗外叫你的名字。'],['c4','藏起來、丟掉或銷毀都不算。不要讓這封信停在你這裡。']]}
 ];
 let vnUnlockAt=0;
-function startVN(key){state.vnKey=key;state.vnStep=0;vnUnlockAt=key==='memory'?Date.now()+MESSAGE_DELAY:0;phase('vn')}
+function startVN(key){state.vnKey=key;state.vnStep=0;vnUnlockAt=0;phase('vn')}
 function vn(){if(state.vnKey==='memory')return fineFollowup();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.background||(block.era===2018?'window-w2-closed.webp':'writing-desk-2b.webp')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
 function vnDone(){if(/^workTopic[0-2]$/.test(state.vnKey)){const topic=+state.vnKey.slice(-1);if(!state.workTopics.includes(topic))state.workTopics.push(topic);save()}const next=VN[state.vnKey].next;if(VN[next]&&next!=='return2012'){startVN(next);return}if(next==='meeting'){startVN('meeting');return}if(next==='to2018'){if(state.workerFinished){startVN(state.confrontation?'return2012':'ending3');return}state.found=true;evidence('paper');phase('compare');return}if(next==='return2012'){state.workerFinished=true;startVN(state.confrontation?'return2012':'ending3');return}if(next==='grading'){state.hidden=true;state.teacherBack=1;phase('grading');return}phase(next)}
 function warmCheck(){return `<section class="workspace"><span class="eyebrow">2012 ／ 三份文字的核對</span><h2>目前已知的資訊為何？</h2><div class="source">學姐的紀錄與許安純保留的紙本，都沒有溫和的那句。<br>沈秋親手刪去威脅，改成「如果可以，請你轉傳給下一個人」。</div>${['「如果可以……」為沈秋主動改寫','威脅句是沈秋加的','信上的處罰會生效'].map((t,i)=>btn('warmcheck'+i,t,'choice')).join('')}<p class="feedback">${esc(state.warmFeedback||'')}</p></section>`}

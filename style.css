@@ -218,3 +218,14 @@ body{font-family:Tahoma,"Microsoft JhengHei","PingFang TC",sans-serif;font-size:
 .poster-modal .aged-paper>.archived-poster{filter:sepia(.58) saturate(.68) brightness(.96) contrast(.91);}
 .poster-modal .aged-paper:after{content:'';position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;background:radial-gradient(ellipse at center,transparent 48%,rgba(153,110,36,.13) 100%),linear-gradient(180deg,rgba(234,207,129,.06),rgba(166,125,47,.08));}
 @media(max-width:760px){.poster-modal{padding:12px;}.poster-modal .dialog{width:100%;height:calc(100dvh - 32px);max-height:calc(100dvh - 32px);}.poster-modal .dialogbody{padding:12px;}.poster-modal .dialogbody>h2{font-size:17px;}.poster-modal .dialogbody>p{font-size:12px;}}
+/* Keep avatar viewing separate from opening a conversation. */
+button.avatar-zoom{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border:0;background:transparent;padding:0;margin:0;cursor:zoom-in;border-radius:3px;vertical-align:middle;}
+.avatar-zoom .profile-avatar{display:block;object-fit:cover;}
+.unified-fine .contact{display:flex;align-items:center;gap:9px;}
+.unified-fine button.contact-open{display:block;flex:1 1 auto;min-width:0;align-self:stretch;border:0;background:transparent;margin:0;padding:8px 0;color:inherit;text-align:left;font:inherit;}
+.contact-open>span{display:block;}.contact-open small{display:block;}
+button.fine-mini-avatar,button.group-avatar{border:0;cursor:zoom-in;flex:0 0 auto;}
+.avatar-modal .dialog{width:min(460px,calc(100vw - 32px));}
+.avatar-modal .dialogbody h2{margin-top:0;font-size:19px;}
+.enlarged-avatar{display:block;width:min(320px,64vw,50dvh);height:min(320px,64vw,50dvh);object-fit:contain;margin:12px auto;background:#fff;border:1px solid #a8b1b6;}
+.avatar-placeholder{display:flex;align-items:center;justify-content:center;font:120px serif;color:#fff;background:#809b7c;}
