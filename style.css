@@ -200,3 +200,8 @@ body{font-family:Tahoma,"Microsoft JhengHei","PingFang TC",sans-serif;font-size:
 @media(prefers-reduced-motion:reduce){.era-date-card{animation:none;}}
 
 .vn-dialogue:has([data-dialogue-next]),.return-dialog:has([data-dialogue-next]),.scene-dialogue:has([data-dialogue-next]){cursor:pointer;}
+
+/* Stronger retinal afterimage; distinct from the later humanlike silhouette. */
+.visual-afterimage{left:42%;top:28%;width:15%;height:26%;background:rgba(92,215,172,.72);filter:blur(6px);box-shadow:0 0 18px rgba(37,153,110,.28);}
+@keyframes afterimage{0%{opacity:1;transform:translate(7px,-3px)}60%{opacity:.94;transform:translate(-2px,2px)}100%{opacity:0;transform:translate(-10px,6px)}}
+@media(prefers-reduced-motion:reduce){.scene-stage.peek-ready .visual-afterimage{opacity:.95;}}
