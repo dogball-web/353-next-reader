@@ -1,6 +1,6 @@
 /* Story draft v0.4. Character identities never specify Shen/An/He's gender. */
 const NAME_CLASS={'沈秋':'name-qiu','賴老師':'name-lai','趙國雄':'name-zhao','林心愛':'name-lin','心理師':'name-counselor'};
-const AVATARS={'沈秋':'avatar-qiu.png','self':'avatar-qiu.png','何稻禾':'avatar-he.webp','小禾':'avatar-he.webp','許安純':'avatar-an.webp','小安':'avatar-an.webp','賴老師':'avatar-lai.webp'};
+const AVATARS={'沈秋':'avatar-qiu-generated.webp','self':'avatar-qiu-generated.webp','何稻禾':'avatar-he.webp','小禾':'avatar-he.webp','許安純':'avatar-an.webp','小安':'avatar-an.webp','賴老師':'avatar-lai.webp'};
 function named(n){return `<span class="character-name ${NAME_CLASS[n]||''}">${esc(n)}</span>`}
 function avatar(n){return AVATARS[n]?`<button type="button" class="avatar-zoom" data-act="avatar:${esc(n)}" aria-label="放大${esc(n)}的頭像"><img class="profile-avatar" src="assets/${AVATARS[n]}" alt="${n==='沈秋'||n==='self'?'楓葉插畫頭貼':n==='賴老師'?'賴老師與太太的合照':n==='何稻禾'||n==='小禾'?'河童插畫頭貼':'寫實鵪鶉蛋頭貼'}" width="40" height="40"></button>`:''}
 
