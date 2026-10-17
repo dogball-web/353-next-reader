@@ -50,7 +50,7 @@ const GameAudio=(()=>{
  function install(){if(installed||typeof Audio==='undefined')return;installed=true;try{muted=localStorage.getItem('353-audio-muted')==='true';}catch(e){}
   const b=document.createElement('button');b.id='audio-toggle';b.className='audio-toggle';b.textContent=muted?'♪ 靜音':'♪ 音效';b.setAttribute('aria-label','切換遊戲音樂與音效');b.setAttribute('aria-pressed',String(muted));b.onclick=toggle;document.body.appendChild(b);
   document.addEventListener('pointerdown',activate,{passive:true});document.addEventListener('keydown',activate);
-  document.addEventListener('click',e=>{activate();if(e.target.closest?.('button,a,[data-hot]')&&!e.target.closest?.('audio,#audio-toggle'))se('click');},true);
+  document.addEventListener('click',e=>{activate();if(e.target.closest?.('button,a,[data-hot],.vn-dialogue,.return-dialog,.scene-dialogue')&&!e.target.closest?.('audio,#audio-toggle'))se('click');},true);
   document.addEventListener('play',e=>{if(e.target.tagName==='AUDIO'){voice=true;if(bgm)bgm.volume=.12;}},true);for(const event of ['pause','ended'])document.addEventListener(event,e=>{if(e.target.tagName==='AUDIO'){voice=false;if(bgm)bgm.volume=.42;}},true);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){bgm?.pause();writing?.pause();pool.forEach(a=>a.pause());}else{activate();sync();}});sync();
  }

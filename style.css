@@ -198,3 +198,5 @@ body{font-family:Tahoma,"Microsoft JhengHei","PingFang TC",sans-serif;font-size:
 @keyframes era-date-card{0%{opacity:0}12%,82%{opacity:1}100%{opacity:0}}
 .poster-shared-message .photo-message{display:block;max-width:220px;background:#fff;}.poster-shared-message .photo-message img{width:100%;height:auto;max-height:none;object-fit:contain;}.poster-shared-message .photo-message span{display:block;font-size:12px;}
 @media(prefers-reduced-motion:reduce){.era-date-card{animation:none;}}
+
+.vn-dialogue:has([data-dialogue-next]),.return-dialog:has([data-dialogue-next]),.scene-dialogue:has([data-dialogue-next]){cursor:pointer;}
