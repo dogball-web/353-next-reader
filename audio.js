@@ -12,7 +12,7 @@ const GameAudio=(()=>{
  function se(id){if(silent()||!unlocked||muted||!effects.includes(id))return;const a=make(id);if(!a)return;pool.add(a);a.onended=a.onerror=()=>pool.delete(a);safe(a);}
  function music(id){if(id==='silence'){stopAll();current='silence';return;}if(!musicNames.includes(id))return;if(current!==id){bgm?.pause();current=id;bgm=make(id,true);if(bgm)bgm.loop=true;}if(bgm){bgm.volume=voice?.12:.42;if(bgm.paused)safe(bgm);}}
  function cue(s){const p=s.phase,k=s.vnKey;if(p==='epilogue')return s.epStep>=2?'silence':s.epStep===1?'zhao':'reasoning';
-  if(p==='finish'||p==='grading')return 'ending';
+  if(p==='grading')return 'silence';if(p==='finish')return 'ending';
   if(p==='vn'){
    if(k==='memory')return 'computer';
    if(VN[k]?.era===2018)return 'zhao';
@@ -28,13 +28,13 @@ const GameAudio=(()=>{
   if(['writingDesk','transcribing','worker','studentRoom','draftCompare'].includes(p))return 'investigation';
   return current||'computer';
  }
- function getEra(s){if(s.phase==='epilogue')return s.epStep>=1?2018:2012;return ['workerIntro','worker','compare','workerPaper','workerAfter','perception','workQuestions'].includes(s.phase)||s.phase==='vn'&&VN[s.vnKey]?.era===2018?2018:2012;}
+ function getEra(s){if(s.phase==='grading'||s.phase==='finish')return 2018;if(s.phase==='epilogue')return s.epStep>=1?2018:2012;return ['workerIntro','worker','compare','workerPaper','workerAfter','perception','workQuestions'].includes(s.phase)||s.phase==='vn'&&VN[s.vnKey]?.era===2018?2018:2012;}
  function fade(from,to){const el=document.createElement('div');el.className='performance-transition';el.style.setProperty('--transition-color',from!==to?(to===2018?'#102944':'#e8e4cc'):'#000');document.body.appendChild(el);setTimeout(()=>el.remove(),950);}
  function showEraDate(to){document.querySelector('.era-date-card')?.remove();const el=document.createElement('div');el.className='era-date-card';el.setAttribute('role','status');el.setAttribute('aria-live','polite');el.textContent=to===2018?'2018年1月':'2012年';document.body.appendChild(el);setTimeout(()=>el.remove(),2600);}
  function snapshot(s){return {phase:s.phase,vnKey:s.vnKey,vnStep:s.vnStep,progress:{...s.progress},posterBriefCount:s.posterBriefCount,posterReceipt:s.posterReceipt,curtainOpen:s.curtainOpen,gapSeen:s.gapSeen,found:s.found,peek:s.peek};}
  function sync(){if(typeof state==='undefined')return;const s=state,newEra=getEra(s),key=s.phase+':'+(s.phase==='vn'?s.vnKey:s.phase==='epilogue'?s.epStep:'');
   if(last){for(const k of ['teacher','ah','an'])if(s.progress[k]>last.progress[k]){se('fine');if(document.querySelector('.shell')?.classList.contains('minimized'))notify(k);}if(s.posterBriefCount>last.posterBriefCount||s.posterReceipt&&!last.posterReceipt)se('fine');if(s.phase==='vn'&&s.vnKey==='memory'&&last.vnKey==='memory'&&s.vnStep>last.vnStep)se('fine');if(s.curtainOpen!==last.curtainOpen&&['worker','workerAfter'].includes(s.phase)&&s.phase===last.phase)se('curtain');}
-  if(key!==scene){if(scene){if(newEra!==era){if(!(s.phase==='finish'&&last?.phase==='epilogue')){se('era');showEraDate(newEra);}fade(era,newEra);}else if(s.phase==='writingDesk'||s.phase==='vn'&&['counsel1','meetingResume'].includes(s.vnKey))fade(era,era);}
+  if(key!==scene){if(scene){if(newEra!==era){if(s.phase!=='finish'){se('era');showEraDate(newEra);}fade(era,newEra);}else if(s.phase==='writingDesk'||s.phase==='vn'&&['counsel1','meetingResume'].includes(s.vnKey))fade(era,era);}
    if(s.phase==='studentRoom'&&last?.phase==='worker'){se('cover2012');}
    if(s.phase==='vn'&&s.vnKey==='memory')se('fine');
    if(s.phase==='epilogue'&&s.epStep===1)se('wrong');if(s.phase==='finish')revealEnding();scene=key;era=newEra;
@@ -62,5 +62,6 @@ const GameAudio=(()=>{
   if(/^warmcheck[0-2]$/.test(id)&&b.phase==='warmCheck')se(id==='warmcheck0'?'correct':'wrong');
   if(id==='accuse'&&b.phase==='draftCompare'&&(state.draftErrors>b.draftErrors||state.phase==='vn'))se(state.confrontation?'correct':'wrong');
  }
- return {install,sync,se,cue,getEra,before,after};
+ function reset(){stopAll();current='';bgm=null;writing=null;last=null;scene='';era=2012;voice=false;}
+ return {install,sync,se,cue,getEra,before,after,reset};
 })();
