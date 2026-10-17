@@ -4,13 +4,16 @@ const GameAudio=(()=>{
  const musicNames=['computer','minigame','curse','investigation','zhao','reasoning','lin','counseling','ending'];
  const effects=['fine','writing','era','item','click','wrong','correct','confirm','tear','startup','curtain','cover2012','cover2018'];
  let unlocked=false,muted=false,current='',bgm=null,writing=null,last=null,scene='',era=2012,voice=false,installed=false;
- const pool=new Set();
- function make(id,isMusic=false){if(typeof Audio==='undefined')return null;const a=new Audio('assets/audio/'+(isMusic?'bgm-':'se-')+id+'.mp3');a.preload='none';a.volume=isMusic?.42:.65;return a}
+ const pool=new Set();let masterVolume=1;
+ function applyVolumes(){if(bgm)bgm.volume=(voice?.12:.42)*masterVolume;if(writing)writing.volume=.65*masterVolume;pool.forEach(a=>a.volume=.65*masterVolume);document.querySelectorAll?.('audio').forEach(a=>{a.volume=masterVolume;a.muted=muted;});}
+ function setVolume(value){const n=Number(value);if(!Number.isFinite(n))return;masterVolume=Math.max(0,Math.min(1,n));try{localStorage.setItem('353-audio-volume',String(masterVolume));}catch(e){}applyVolumes();const range=document.querySelector('#audio-volume'),out=document.querySelector('#audio-volume-value');if(range)range.value=String(Math.round(masterVolume*100));if(out)out.textContent=Math.round(masterVolume*100)+'%';}
+
+ function make(id,isMusic=false){if(typeof Audio==='undefined')return null;const a=new Audio('assets/audio/'+(isMusic?'bgm-':'se-')+id+'.mp3');a.preload='none';a.volume=(isMusic?.42:.65)*masterVolume;return a}
  function silent(){return typeof epilogueSilent==='function'&&epilogueSilent();}
  function stopAll(){bgm?.pause();writing?.pause();pool.forEach(a=>a.pause());document.querySelectorAll?.('audio').forEach(a=>a.pause());}
  function safe(a){if(silent()||!a||!a.paused||!unlocked||muted||document.visibilityState==='hidden')return;const p=a.play();if(p?.catch)p.catch(()=>{});}
  function se(id){if(silent()||!unlocked||muted||!effects.includes(id))return;const a=make(id);if(!a)return;pool.add(a);a.onended=a.onerror=()=>pool.delete(a);safe(a);}
- function music(id){if(id==='silence'){stopAll();current='silence';return;}if(!musicNames.includes(id))return;if(current!==id){bgm?.pause();current=id;bgm=make(id,true);if(bgm)bgm.loop=true;}if(bgm){bgm.volume=voice?.12:.42;if(bgm.paused)safe(bgm);}}
+ function music(id){if(id==='silence'){stopAll();current='silence';return;}if(!musicNames.includes(id))return;if(current!==id){bgm?.pause();current=id;bgm=make(id,true);if(bgm)bgm.loop=true;}if(bgm){bgm.volume=(voice?.12:.42)*masterVolume;if(bgm.paused)safe(bgm);}}
  function cue(s){const p=s.phase,k=s.vnKey;if(p==='epilogue')return s.epStep>=2?'silence':s.epStep===1?'zhao':'reasoning';
   if(p==='grading')return 'silence';if(p==='finish')return 'ending';
   if(p==='vn'){
@@ -46,12 +49,12 @@ const GameAudio=(()=>{
  function notify(key){const old=document.querySelector('#fine-notification');old?.remove();const el=document.createElement('button');el.id='fine-notification';el.className='fine-notification';el.textContent='Fine　'+({teacher:'賴老師',ah:'何稻禾',an:'許安純'}[key]||'新訊息')+'傳來訊息';el.onclick=()=>{el.remove();state.fineContact=key;state.chat=['ah','an','teacher'].indexOf(key);app('sns');};document.body.appendChild(el);setTimeout(()=>el.remove(),6000);}
  function revealEnding(){const parent=document.querySelector('.endcard');if(!parent?.children)return;Array.from(parent.children).forEach((el,i)=>{el.classList.add('ending-reveal');el.style.animationDelay=i+'s';el.style.pointerEvents='none';setTimeout(()=>{if(state.phase!=='finish'||!el.isConnected)return;el.style.pointerEvents='';se('correct');},i*1000);});}
  function activate(){if(!unlocked){unlocked=true;sync();}safe(bgm);safe(writing);}
- function toggle(){muted=!muted;try{localStorage.setItem('353-audio-muted',String(muted));}catch(e){}if(muted){bgm?.pause();writing?.pause();pool.forEach(a=>a.pause());}else{activate();sync();}const b=document.querySelector('#audio-toggle');if(b){b.textContent=muted?'♪ 靜音':'♪ 音效';b.setAttribute('aria-pressed',String(muted));}}
- function install(){if(installed||typeof Audio==='undefined')return;installed=true;try{muted=localStorage.getItem('353-audio-muted')==='true';}catch(e){}
-  const b=document.createElement('button');b.id='audio-toggle';b.className='audio-toggle';b.textContent=muted?'♪ 靜音':'♪ 音效';b.setAttribute('aria-label','切換遊戲音樂與音效');b.setAttribute('aria-pressed',String(muted));b.onclick=toggle;document.body.appendChild(b);
+ function toggle(){muted=!muted;try{localStorage.setItem('353-audio-muted',String(muted));}catch(e){}applyVolumes();if(muted){bgm?.pause();writing?.pause();pool.forEach(a=>a.pause());}else{activate();sync();}const b=document.querySelector('#audio-toggle');if(b){b.textContent=muted?'♪ 靜音':'♪ 音效';b.setAttribute('aria-pressed',String(muted));}}
+ function install(){if(installed||typeof Audio==='undefined')return;installed=true;try{muted=localStorage.getItem('353-audio-muted')==='true';const saved=localStorage.getItem('353-audio-volume');if(saved!==null&&saved!==undefined&&saved!==''&&Number.isFinite(Number(saved)))masterVolume=Math.max(0,Math.min(1,Number(saved)));}catch(e){}
+  const b=document.createElement('button');b.id='audio-toggle';b.className='audio-toggle';b.textContent=muted?'♪ 靜音':'♪ 音效';b.setAttribute('aria-label','切換遊戲音樂與音效');b.setAttribute('aria-pressed',String(muted));b.onclick=toggle;const controls=document.createElement('details');controls.className='audio-controls';const summary=document.createElement('summary');summary.textContent='♪ 音量';summary.setAttribute('aria-label','開啟音量設定');controls.appendChild(summary);const panel=document.createElement('div');panel.className='audio-panel';const label=document.createElement('label');label.textContent='音量';label.htmlFor='audio-volume';const range=document.createElement('input');range.id='audio-volume';range.type='range';range.min='0';range.max='100';range.step='1';range.value=String(Math.round(masterVolume*100));range.setAttribute('aria-label','遊戲音量');range.oninput=()=>setVolume(Number(range.value)/100);const out=document.createElement('output');out.id='audio-volume-value';out.htmlFor='audio-volume';out.textContent=Math.round(masterVolume*100)+'%';panel.appendChild(label);panel.appendChild(range);panel.appendChild(out);panel.appendChild(b);controls.appendChild(panel);document.body.appendChild(controls);
   document.addEventListener('pointerdown',activate,{passive:true});document.addEventListener('keydown',activate);
-  document.addEventListener('click',e=>{activate();if(e.target.closest?.('button,a,[data-hot],.vn-dialogue,.return-dialog,.scene-dialogue')&&!e.target.closest?.('audio,#audio-toggle'))se('click');},true);
-  document.addEventListener('play',e=>{if(e.target.tagName==='AUDIO'){voice=true;if(bgm)bgm.volume=.12;}},true);for(const event of ['pause','ended'])document.addEventListener(event,e=>{if(e.target.tagName==='AUDIO'){voice=false;if(bgm)bgm.volume=.42;}},true);
+  document.addEventListener('click',e=>{activate();if(e.target.closest?.('button,a,[data-hot],.vn-dialogue,.return-dialog,.scene-dialogue')&&!e.target.closest?.('audio,.audio-controls'))se('click');},true);
+  document.addEventListener('play',e=>{if(e.target.tagName==='AUDIO'){e.target.volume=masterVolume;e.target.muted=muted;voice=true;if(bgm)bgm.volume=.12*masterVolume;}},true);for(const event of ['pause','ended'])document.addEventListener(event,e=>{if(e.target.tagName==='AUDIO'){voice=false;if(bgm)bgm.volume=.42*masterVolume;}},true);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){bgm?.pause();writing?.pause();pool.forEach(a=>a.pause());}else{activate();sync();}});sync();
  }
  function before(id){if(id==='diagnose'&&state.phase==='worker'&&selected===1&&proof===1)se('cover2018');return {phase:state.phase,line:state.line,copy:state.copy,destroyed:state.destroyed,draftErrors:state.draftErrors};}
@@ -63,5 +66,5 @@ const GameAudio=(()=>{
   if(id==='accuse'&&b.phase==='draftCompare'&&(state.draftErrors>b.draftErrors||state.phase==='vn'))se(state.confrontation?'correct':'wrong');
  }
  function reset(){stopAll();current='';bgm=null;writing=null;last=null;scene='';era=2012;voice=false;}
- return {install,sync,se,cue,getEra,before,after,reset};
+ return {install,sync,se,cue,getEra,before,after,reset,setVolume};
 })();

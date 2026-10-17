@@ -208,3 +208,14 @@ body{font-family:Tahoma,"Microsoft JhengHei","PingFang TC",sans-serif;font-size:
 .visual-afterimage:after{inset:30% 17% 12% 6%;border-left:4px solid rgba(96,148,129,.45);border-bottom:3px solid rgba(96,148,129,.35);transform:rotate(-34deg) skew(24deg);}
 @keyframes afterimage{0%{opacity:.34;transform:translate(5px,-2px)}60%{opacity:.27;transform:translate(0,1px)}100%{opacity:0;transform:translate(-5px,3px)}}
 @media(prefers-reduced-motion:reduce){.scene-stage.peek-ready .visual-afterimage{opacity:.28;}}
+
+/* Compact, keyboard-accessible master volume control. */
+.audio-controls{position:fixed;top:8px;right:172px;z-index:120;color:#fff;font:12px/1.5 Tahoma,'Microsoft JhengHei',sans-serif;}
+.audio-controls>summary{cursor:pointer;list-style:none;padding:3px 7px;background:#18334de6;border:1px solid #b8c9d6;border-radius:4px;user-select:none;}
+.audio-controls>summary::-webkit-details-marker{display:none;}
+.audio-controls>summary:focus-visible{outline:3px solid #d7ac62;}
+.audio-panel{position:absolute;right:0;top:calc(100% + 6px);width:228px;max-width:calc(100vw - 24px);padding:12px;display:grid;grid-template-columns:32px 1fr 38px;align-items:center;gap:9px;background:#263746f5;border:1px solid #b8c9d6;border-radius:5px;box-shadow:0 4px 12px #0005;}
+.audio-panel input{width:100%;min-width:0;accent-color:#b7d8ec;cursor:pointer;touch-action:pan-x;}
+.audio-panel output{text-align:right;font-variant-numeric:tabular-nums;}
+.audio-panel .audio-toggle{position:static;grid-column:1/-1;width:100%;margin:2px 0 0;padding:6px;}
+@media(max-width:560px){.audio-controls{right:132px;top:7px;}.audio-panel{right:-115px;}}
