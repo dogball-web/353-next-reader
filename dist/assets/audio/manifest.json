@@ -1,0 +1,112 @@
+{
+  "reasoning": {
+    "src": "assets/audio/bgm-reasoning.mp3",
+    "original": "推理場景 maou_bgm_acoustic31.mp3",
+    "category": "BGM"
+  },
+  "minigame": {
+    "src": "assets/audio/bgm-minigame.mp3",
+    "original": "教材修訂小遊戲、海報小遊戲音樂 maou_bgm_healing13.mp3",
+    "category": "BGM"
+  },
+  "lin": {
+    "src": "assets/audio/bgm-lin.mp3",
+    "original": "林心愛出場 maou_bgm_acoustic29.mp3",
+    "category": "BGM"
+  },
+  "curse": {
+    "src": "assets/audio/bgm-curse.mp3",
+    "original": "第一次收到詛咒信 maou_bgm_acoustic24.mp3",
+    "category": "BGM"
+  },
+  "ending": {
+    "src": "assets/audio/bgm-ending.mp3",
+    "original": "結算 maou_bgm_acoustic44.mp3",
+    "category": "BGM"
+  },
+  "investigation": {
+    "src": "assets/audio/bgm-investigation.mp3",
+    "original": "調查音樂 maou_bgm_acoustic15.mp3",
+    "category": "BGM"
+  },
+  "counseling": {
+    "src": "assets/audio/bgm-counseling.mp3",
+    "original": "諮商室 maou_bgm_piano31.mp3",
+    "category": "BGM"
+  },
+  "zhao": {
+    "src": "assets/audio/bgm-zhao.mp3",
+    "original": "趙國雄出場音樂 maou_bgm_acoustic10.mp3",
+    "category": "BGM"
+  },
+  "computer": {
+    "src": "assets/audio/bgm-computer.mp3",
+    "original": "電腦操作音樂 maou_bgm_healing15.mp3",
+    "category": "BGM"
+  },
+  "fine": {
+    "src": "assets/audio/se-fine.mp3",
+    "original": "Fine通知音 決定ボタンを押す50.mp3",
+    "category": "SE"
+  },
+  "writing": {
+    "src": "assets/audio/se-writing.mp3",
+    "original": "寫字 シャーペンで字を書く.mp3",
+    "category": "SE"
+  },
+  "era": {
+    "src": "assets/audio/se-era.mp3",
+    "original": "年代轉場2018 to 2012 maou_se_jingle02.mp3",
+    "category": "SE"
+  },
+  "item": {
+    "src": "assets/audio/se-item.mp3",
+    "original": "得到道具 ちゃんちゃん♪1.mp3",
+    "category": "SE"
+  },
+  "click": {
+    "src": "assets/audio/se-click.mp3",
+    "original": "滑鼠聲 決定ボタンを押す7.mp3",
+    "category": "SE"
+  },
+  "wrong": {
+    "src": "assets/audio/se-wrong.mp3",
+    "original": "疑點 maou_se_onepoint30.mp3",
+    "category": "SE"
+  },
+  "correct": {
+    "src": "assets/audio/se-correct.mp3",
+    "original": "確認關鍵資訊成功 maou_se_system48.mp3",
+    "category": "SE"
+  },
+  "confirm": {
+    "src": "assets/audio/se-confirm.mp3",
+    "original": "確認音 maou_se_system38.mp3",
+    "category": "SE"
+  },
+  "tear": {
+    "src": "assets/audio/se-tear.mp3",
+    "original": "紙を破く2.mp3",
+    "category": "SE"
+  },
+  "startup": {
+    "src": "assets/audio/se-startup.mp3",
+    "original": "開機音效 maou_se_system03.mp3",
+    "category": "SE"
+  },
+  "curtain": {
+    "src": "assets/audio/se-curtain.mp3",
+    "original": "開窗簾 カーテンを開ける.mp3",
+    "category": "SE"
+  },
+  "cover2018": {
+    "src": "assets/audio/se-cover2018.mp3",
+    "original": "飾蓋掉落 カーソル移動8.mp3",
+    "category": "SE"
+  },
+  "cover2012": {
+    "src": "assets/audio/se-cover2012.mp3",
+    "original": "飾蓋掉落2 ビデオディスクのケースを閉める.mp3",
+    "category": "SE"
+  }
+}

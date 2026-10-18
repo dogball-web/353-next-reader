@@ -1,5 +1,5 @@
 /* Story draft v0.4. Character identities never specify Shen/An/He's gender. */
-const NAME_CLASS={'沈秋':'name-qiu','賴老師':'name-lai','趙國雄':'name-zhao','林心愛':'name-lin','心理師':'name-counselor'};
+const NAME_CLASS={'何稻禾':'name-he','沈秋':'name-qiu','賴老師':'name-lai','趙國雄':'name-zhao','林心愛':'name-lin','心理師':'name-counselor'};
 const AVATARS={'group':'avatar-group-empty-desk.webp','沈秋':'avatar-qiu-generated.webp','self':'avatar-qiu-generated.webp','何稻禾':'avatar-he.webp','小禾':'avatar-he.webp','許安純':'avatar-an.webp','小安':'avatar-an.webp','賴老師':'avatar-lai.webp'};
 function named(n){return `<span class="character-name ${NAME_CLASS[n]||''}">${esc(n)}</span>`}
 function avatar(n){return AVATARS[n]?`<button type="button" class="avatar-zoom" data-act="avatar:${esc(n)}" aria-label="放大${esc(n)}的頭像"><img class="profile-avatar" src="assets/${AVATARS[n]}" alt="${n==='group'?'語言文本系學會辦公桌頭貼':n==='沈秋'||n==='self'?'楓葉插畫頭貼':n==='賴老師'?'賴老師與太太的合照':n==='何稻禾'||n==='小禾'?'河童插畫頭貼':'寫實鵪鶉蛋頭貼'}" width="40" height="40"></button>`:''}
@@ -41,7 +41,7 @@ const VN={
   },
   "memory": {
     "era": 2012,
-    "next": "meeting",
+    "next": "heIntro",
     "lines": [
       [
         "",
@@ -69,7 +69,7 @@ const VN={
       ],
       [
         "何稻禾",
-        "我問到有人認得其中一段…！說是林心愛學姐以前整理的文字，我先問學姐願不願意談"
+        "我有學姐的Fine和Fasebook，以前辦活動留的聯絡方式。我先問她願不願意談，也翻一下舊紀錄。"
       ],
       [
         "",
@@ -127,7 +127,7 @@ const VN={
   },
   "meeting": {
     "era": 2012,
-    "next": "counsel1",
+    "next": "linRecords",
     "lines": [
       [
         "",
@@ -166,6 +166,10 @@ const VN={
       [
         "沈秋",
         "前一份只有目擊紀錄。你後來加上不轉傳就會受罰的句子，旁邊還寫了「這樣才會有人繼續傳」。"
+      ],
+      [
+        "林心愛",
+        "不轉傳就會有人叫名字，那是我編上去的。我真正遇到的，不是因為沒有傳信。"
       ],
       [
         "林心愛",
@@ -643,6 +647,164 @@ const VN={
         "我總覺得心愛學姐瞞著什麼…？"
       ]
     ]
+  },
+  "heIntro": {
+    "era": 2012,
+    "pov": "he",
+    "narrator": "何稻禾",
+    "label": "2012年 ／ 何稻禾・電腦前",
+    "next": "investigation",
+    "lines": [
+      [
+        "",
+        "另一端，何稻禾打開瀏覽器。學姐正在前往353。"
+      ],
+      [
+        "何稻禾",
+        "先看學姐自己留下的東西。貼文、系上的舊名單……不要只靠那封轉傳信。"
+      ]
+    ]
+  },
+  "heBack": {
+    "era": 2012,
+    "label": "2012年 ／ 沈秋・353語言教室",
+    "next": "meeting",
+    "lines": [
+      [
+        "",
+        "2012年，17:46。沈秋收到何稻禾傳來的原文。"
+      ],
+      [
+        "沈秋",
+        "同名不一定是同一人。先把問題留著，等學姐來。"
+      ]
+    ]
+  },
+  "linRecords": {
+    "era": 2012,
+    "next": "recordCompare",
+    "lines": [
+      [
+        "沈秋",
+        "Bailey幫忙翻了學姐的舊貼文，也查到兩個系的紀錄。名字一樣，但我們不知道是不是同一個人。"
+      ],
+      [
+        "林心愛",
+        "你說文學系？那些課我有上。"
+      ],
+      [
+        "沈秋",
+        "學姐不是我們語言文本與文化學系的嗎？"
+      ],
+      [
+        "林心愛",
+        "是啊。你們以前的活動我還幫忙校過字。文學系那堂……我也記得。"
+      ],
+      [
+        "",
+        "她從文件夾抽出一張習作。沈秋點開稍早留存的原系課堂紀錄。"
+      ],
+      [
+        "林心愛",
+        "打卡那兩篇也是我的。什麼時候從台南到嘉義……我現在接不起來。但我記得那頓飯。"
+      ],
+      [
+        "沈秋",
+        "先不猜行程。我們核對一件能看清楚時間的事。"
+      ]
+    ]
+  },
+  "linConflict": {
+    "era": 2012,
+    "next": "linSafety",
+    "lines": [
+      [
+        "沈秋",
+        "星期二第三、四節，賴老師的課有學姐的簽到和短評。你帶來的習作，卻也是同一天第三、四節。"
+      ],
+      [
+        "林心愛",
+        "對，那天有分組。我記得坐在窗邊，旁邊的人把我的筆拿走了。"
+      ],
+      [
+        "沈秋",
+        "學姐，我問的是哪一堂。"
+      ],
+      [
+        "",
+        "她看著兩份紀錄，沒有立刻回答。"
+      ],
+      [
+        "林心愛",
+        "……兩堂。我兩堂都有去。"
+      ],
+      [
+        "沈秋",
+        "那賴老師呢？"
+      ],
+      [
+        "林心愛",
+        "我當然認識賴老師。可是想到另一間教室的時候……我又覺得，我從來沒見過這個人。"
+      ],
+      [
+        "林心愛",
+        "我最早只看見一點殘影。後來我一次次回去確認，換位置、換時間。那些課、那些同學，才慢慢變成我記得的事。"
+      ],
+      [
+        "林心愛",
+        "我問過那邊的同學。他們說最近一直跟我同組，很熟。問以前的事，卻沒有人說得出來。"
+      ],
+      [
+        "林心愛",
+        "不是我亂編。我拿得出習作，他們也叫得出我的名字。"
+      ],
+      [
+        "",
+        "她把較早的紀錄推過來。紙上的字，比剛才的聲音平穩。"
+      ]
+    ]
+  },
+  "linAnchor": {
+    "era": 2012,
+    "next": "counsel1",
+    "lines": [
+      [
+        "沈秋",
+        "先不要開。我們先講這張桌上的東西，好嗎？"
+      ],
+      [
+        "林心愛",
+        "可是不看，你怎麼知道我講的是哪一邊？"
+      ],
+      [
+        "沈秋",
+        "我現在知道學姐坐在我面前。手上這張紙，最後一句寫了什麼？"
+      ],
+      [
+        "林心愛",
+        "如果可以，請你轉傳給下一個人。那個「請」是後來補的。"
+      ],
+      [
+        "沈秋",
+        "對，是我補的。我剛剛問的是這張紙。"
+      ],
+      [
+        "",
+        "窗簾沒有拉開。接下來幾分鐘，學姐沒有再回答沈秋未曾聽見的另一段談話。"
+      ],
+      [
+        "林心愛",
+        "……可是另一堂課沒有不見。我還記得。"
+      ],
+      [
+        "沈秋",
+        "我知道。剛才停下來，不代表那些事都好了。"
+      ],
+      [
+        "林心愛",
+        "那時候我也試過停下來。可是一想到沒有人相信，我又想回去確認。後來老師叫我去輔導室。"
+      ]
+    ]
   }
 };
 const DRAFTS=[
@@ -652,7 +814,7 @@ const DRAFTS=[
 ];
 let vnUnlockAt=0;
 function startVN(key){state.vnKey=key;state.vnStep=0;vnUnlockAt=0;phase('vn')}
-function vn(){if(state.vnKey==='memory')return fineFollowup();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.background||(block.era===2018?'window-w2-closed.webp':'writing-desk-2b.webp')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
+function vn(){if(state.vnKey==='memory')return fineFollowup();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${block.pov==='he'?'he-intro':counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.background||(block.era===2018?'window-w2-closed.webp':'writing-desk-2b.webp')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
 function vnDone(){if(/^workTopic[0-2]$/.test(state.vnKey)){const topic=+state.vnKey.slice(-1);if(!state.workTopics.includes(topic))state.workTopics.push(topic);save()}const next=VN[state.vnKey].next;if(VN[next]&&next!=='return2012'){startVN(next);return}if(next==='meeting'){startVN('meeting');return}if(next==='to2018'){if(state.workerFinished){startVN(state.confrontation?'return2012':'ending3');return}state.found=true;evidence('paper');phase('compare');return}if(next==='return2012'){state.workerFinished=true;startVN(state.confrontation?'return2012':'ending3');return}if(next==='epilogue'){state.hidden=true;beginEpilogue();return}phase(next)}
 function warmCheck(){return `<section class="workspace"><span class="eyebrow">2012 ／ 三份文字的核對</span><h2>目前已知的資訊為何？</h2><div class="source">學姐的紀錄與許安純保留的紙本，都沒有溫和的那句。<br>沈秋親手刪去威脅，改成「如果可以，請你轉傳給下一個人」。</div>${['「如果可以……」為沈秋主動改寫','威脅句是沈秋加的','信上的處罰會生效'].map((t,i)=>btn('warmcheck'+i,t,'choice')).join('')}<p class="feedback">${esc(state.warmFeedback||'')}</p></section>`}
 function draftCompare(){const d=DRAFTS[state.draftPage||0],picked=state.draftPicked||[];return `<section class="draft-workspace"><div class="draft-heading"><span>2012 ／ 林心愛帶來的草稿</span><h2>來回翻閱，點選能互相支持的句子。</h2><p>選取與取消不算指認；請各選一段：原稿原本如何結束、新增了什麼威脅、為什麼要新增。整理好再提出判斷。</p></div><nav class="draft-tabs">${DRAFTS.map((x,i)=>btn('draftpage'+i,x.label,i===(state.draftPage||0)?'primary':'secondary')).join('')}</nav><article class="draft-page"><h3>${d.label}</h3>${d.lines.map(([id,t])=>id==='excerpt-gap'?`<p class="draft-excerpt-gap">${esc(t)}</p>`:`<button class="draft-sentence ${picked.includes(id)?'picked':''}" data-act="pick:${id}">${esc(t)}</button>`).join('')}</article><section class="draft-tray"><b>暫存依據 ${picked.length}／3</b>${picked.map(id=>{const l=DRAFTS.flatMap(x=>x.lines).find(x=>x[0]===id);return btn('pick:'+id,esc(l[1])+' ×','secondary')}).join('')}</section><div class="draft-response">${named('林心愛')}<p>${esc(state.draftFeedback||'你要說是哪一段改了，先把前後的字找給我看。')}</p></div>${btn('accuse','提出判斷：威脅句是學姐後來新增的','primary',picked.length!==3)}</section>`}
