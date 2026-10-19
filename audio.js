@@ -54,7 +54,7 @@ const GameAudio=(()=>{
   if(s.phase==='transcribing'){if(!writing){writing=make('writing');if(writing)writing.loop=true;}if(writing?.paused)safe(writing);}else if(writing){writing.pause();writing=null;}
   last=snapshot(s);
  }
- function notify(key){const old=document.querySelector('#fine-notification');old?.remove();const el=document.createElement('button');el.id='fine-notification';el.className='fine-notification';el.textContent='Fine　'+({teacher:'賴老師',ah:'何稻禾',an:'許安純'}[key]||'新訊息')+'傳來訊息';el.onclick=()=>{el.remove();state.fineContact=key;state.chat=['ah','an','teacher'].indexOf(key);app('sns');};document.body.appendChild(el);setTimeout(()=>el.remove(),6000);}
+ function notify(key){const old=document.querySelector('#fine-notification');old?.remove();const el=document.createElement('button');el.id='fine-notification';el.className='fine-notification';el.textContent='Fasebook訊息　'+({teacher:'賴老師',ah:'何稻禾',an:'許安純'}[key]||'新訊息')+'傳來訊息';el.onclick=()=>{el.remove();state.fineContact=key;state.chat=['ah','an','teacher'].indexOf(key);app('sns');};document.body.appendChild(el);setTimeout(()=>el.remove(),6000);}
  function revealEnding(){const parent=document.querySelector('.endcard');if(!parent?.children)return;Array.from(parent.children).forEach((el,i)=>{el.classList.add('ending-reveal');el.style.animationDelay=i+'s';el.style.pointerEvents='none';setTimeout(()=>{if(state.phase!=='finish'||!el.isConnected)return;el.style.pointerEvents='';se('correct');},i*1000);});}
  function activate(){if(!unlocked){unlocked=true;sync();}if(eraSound)safe(eraSound);else{safe(bgm);safe(writing);}}
  function toggle(){muted=!muted;try{localStorage.setItem('353-audio-muted',String(muted));}catch(e){}applyVolumes();if(muted){cancelEraSound();bgm?.pause();writing?.pause();pool.forEach(a=>a.pause());}else{activate();sync();}const b=document.querySelector('#audio-toggle');if(b){b.textContent=muted?'♪ 靜音':'♪ 音效';b.setAttribute('aria-pressed',String(muted));}}
@@ -76,3 +76,4 @@ const GameAudio=(()=>{
  function reset(){stopAll();current='';bgm=null;writing=null;last=null;scene='';era=2012;voice=false;}
  return {install,sync,se,ruleClick,cue,getEra,before,after,reset,setVolume};
 })();
+

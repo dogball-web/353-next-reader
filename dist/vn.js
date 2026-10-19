@@ -69,7 +69,7 @@ const VN={
       ],
       [
         "何稻禾",
-        "我有學姐的Fine和Fasebook，以前辦活動留的聯絡方式。我先問她願不願意談，也翻一下舊紀錄。"
+        "我有加學姐的Fasebook，以前辦活動留的聯絡方式。我先問她願不願意談，也翻一下舊紀錄。"
       ],
       [
         "",
@@ -77,7 +77,7 @@ const VN={
       ],
       [
         "何稻禾",
-        "學姐同意了！我把你的Fine給她，原本的紙先別再轉傳"
+        "學姐同意了！我把你的Fasebook帳號給她，原本的紙先別再轉傳"
       ],
       [
         "林心愛",
@@ -139,7 +139,7 @@ const VN={
       ],
       [
         "",
-        "你抽出第二份謄本，將摺痕攤平。何稻禾與許安純沒有到場，仍透過Fine協助。"
+        "你抽出第二份謄本，將摺痕攤平。何稻禾與許安純沒有到場，仍透過Fasebook訊息協助。"
       ],
       [
         "林心愛",
@@ -409,7 +409,7 @@ const VN={
       ],
       [
         "",
-        "你點開Fine核對許安純稍早傳來的照片。紙本上也沒有這句溫和邀請。"
+        "你點開Fasebook訊息核對許安純稍早傳來的照片。紙本上也沒有這句溫和邀請。"
       ],
       [
         "沈秋",
@@ -836,6 +836,7 @@ function workQuestionsDone(){return WORK_TOPICS.every((q,i)=>(state.workTopics||
 function workQuestions(){return `<section class="vn-stage work-questions-stage"><img class="vn-backdrop" src="assets/window-w2-closed.webp" alt="2018年353教室閉合的紅色窗簾"><div class="vn-era">2018年1月 ／ 趙國雄・維修人員</div><nav class="vn-topic-options" aria-label="向賴老師提問">${WORK_TOPICS.map((q,i)=>btn('worktopic'+i,esc(q[0])+'<small>'+((state.workTopics||[]).includes(i)?'已談過':'')+'</small>','vn-topic-choice')).join('')}</nav><div class="vn-dialogue"><div class="vn-speaker">${named('趙國雄')}<small>內心／敘述</small></div><p>你能確定的是紙從固定座裡取出；老師的回憶不一定準確，因為他曾親口說他有健忘的老毛病。</p>${workQuestionsDone()?'<div class="vn-next">'+btn('workfinish','填妥維修單，交接紙本 →','secondary')+'</div>':''}</div></section>`}
 function endingChoice(){return `<section class="vn-stage"><img class="vn-backdrop" src="assets/writing-desk-2b.webp" alt="2012年353的桌面"><div class="vn-era">2012年 ／ 沈秋</div><div class="vn-dialogue"><div class="vn-speaker">${named('林心愛')}</div><p>你希望下一個人讀到它，還是不希望？</p><div class="ending-options">${btn('ending1','希望有人願意讀到','secondary')}${btn('ending2','不希望再有人收到','secondary')}</div></div></section>`}
 
-// Author-supplied Fine voice message; staged locally, awaiting music before publication.
+// Author-supplied Fasebook訊息 voice message; staged locally, awaiting music before publication.
 const LIN_VOICE_SRC='assets/audio/lin-xinai-fine-voice-01.mp3';
 function fineFollowup(){return fineUI()}
+
