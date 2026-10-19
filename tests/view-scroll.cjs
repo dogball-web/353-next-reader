@@ -1,0 +1,17 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const source=fs.readFileSync(require('path').join(__dirname,'../app.js'),'utf8');
+const nodes=new Map(),frames=[],page=[];
+const ctx=vm.createContext({state:{phase:'investigation',heTab:'fasebook',hePane:'timeline'},window:{scrollX:0,scrollY:77,scrollTo:(x,y)=>page.push([x,y])},document:{querySelector:s=>nodes.get(s)||null},requestAnimationFrame:fn=>frames.push(fn)});
+vm.runInContext(source.slice(source.indexOf("let renderedScrollKey="),source.indexOf('function render(){')),ctx);
+const run=s=>vm.runInContext(s,ctx);
+for(const s of ['#view','#view .fb-page-content','#view .vn-topic-options'])nodes.set(s,{scrollTop:321,scrollLeft:19});
+run('renderedScrollKey=viewScrollKey();const snapshot=captureViewScroll(viewScrollKey());renderScrollVersion=1');
+for(const s of nodes.keys())nodes.set(s,{scrollTop:0,scrollLeft:0});
+run('restoreViewScroll(snapshot,1)');
+assert.equal(nodes.get('#view .fb-page-content').scrollTop,321);
+assert.equal(nodes.get('#view .vn-topic-options').scrollLeft,19);
+assert.deepEqual(page.at(-1),[0,77]);
+nodes.get('#view .fb-page-content').scrollTop=0;frames.shift()();assert.equal(nodes.get('#view .fb-page-content').scrollTop,321);
+run("state.heTab='campus'");assert.equal(run('captureViewScroll(viewScrollKey())'),null);
+run('renderScrollVersion=2');nodes.get('#view .fb-page-content').scrollTop=42;while(frames.length)frames.shift()();assert.equal(nodes.get('#view .fb-page-content').scrollTop,42);
+console.log('PASS view scroll: nested Fasebook and choice positions survive replacement/layout; page position retained; different pages and stale callbacks do not inherit old scroll.');
