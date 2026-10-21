@@ -22,7 +22,7 @@ const GameAudio=(()=>{
   if(p==='investigation')return 'computer';if(p==='recordCompare'||p==='linSafety')return 'lin';if(p==='vn'&&k==='linConflict'&&s.vnStep===3)return 'silence';
   if(p==='grading')return 'silence';if(p==='finish')return 'ending';
   if(p==='vn'){
-   if(k==='memory'||k==='heIntro'||k==='heBack')return 'computer';if(['heBack','linRecords','linConflict','linAnchor'].includes(k))return 'lin';
+   if(k==='firstBridge')return 'investigation';if(k==='memory'||k==='heIntro'||k==='heBack')return 'computer';if(['heBack','linRecords','linConflict','linAnchor'].includes(k))return 'lin';
    if(VN[k]?.era===2018)return 'zhao';
    if(k.startsWith('counsel')||k==='confession')return 'counseling';
    if(['meeting','meetingResume','roleVictim','roleSender','ending3'].includes(k))return 'lin';
@@ -38,7 +38,7 @@ const GameAudio=(()=>{
  }
  function getEra(s){if(s.phase==='grading'||s.phase==='finish')return 2018;if(s.phase==='epilogue')return s.epStep>=1?2018:2012;return ['workerIntro','worker','compare','workerPaper','workerAfter','perception','workQuestions'].includes(s.phase)||s.phase==='vn'&&VN[s.vnKey]?.era===2018?2018:2012;}
  function fade(from,to){const el=document.createElement('div');el.className='performance-transition';el.style.setProperty('--transition-color',from!==to?(to===2018?'#102944':'#e8e4cc'):'#000');document.body.appendChild(el);setTimeout(()=>el.remove(),950);}
- function showEraDate(to){document.querySelector('.era-date-card')?.remove();const el=document.createElement('div');el.className='era-date-card';el.setAttribute('role','status');el.setAttribute('aria-live','polite');el.textContent=to===2018?'2018年1月':'2012年';document.body.appendChild(el);setTimeout(()=>el.remove(),2600);}
+ function showEraDate(to){document.querySelector('.era-date-card')?.remove();if(to===2018&&state.phase==='workerIntro')return;const el=document.createElement('div');el.className='era-date-card';el.setAttribute('role','status');el.setAttribute('aria-live','polite');el.textContent=to===2018?'2018年1月':'2012年';document.body.appendChild(el);setTimeout(()=>el.remove(),2600);}
  function pov(s){return s.phase==='investigation'||s.phase==='vn'&&VN[s.vnKey]?.pov==='he'?'何稻禾':getEra(s)===2018?'趙國雄':'沈秋';}
  function perspectiveCard(name){document.querySelector('.era-date-card')?.remove();const el=document.createElement('div');el.className='era-date-card';el.textContent='2012年　'+name;document.body.appendChild(el);setTimeout(()=>el.remove(),2600);}
  function snapshot(s){return {pov:pov(s),heChat:s.heChat,phase:s.phase,vnKey:s.vnKey,vnStep:s.vnStep,progress:{...s.progress},posterBriefCount:s.posterBriefCount,posterReceipt:s.posterReceipt,curtainOpen:s.curtainOpen,gapSeen:s.gapSeen,found:s.found,peek:s.peek};}
@@ -76,4 +76,5 @@ const GameAudio=(()=>{
  function reset(){stopAll();current='';bgm=null;writing=null;last=null;scene='';era=2012;voice=false;}
  return {install,sync,se,ruleClick,cue,getEra,before,after,reset,setVolume};
 })();
+
 

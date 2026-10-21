@@ -5,13 +5,24 @@ function named(n){return `<span class="character-name ${NAME_CLASS[n]||''}">${es
 function avatar(n){return AVATARS[n]?`<button type="button" class="avatar-zoom" data-act="avatar:${esc(n)}" aria-label="放大${esc(n)}的頭像"><img class="profile-avatar" src="assets/${AVATARS[n]}" alt="${n==='group'?'語言文本系學會辦公桌頭貼':n==='沈秋'||n==='self'?'楓葉插畫頭貼':n==='賴老師'?'賴老師與太太的合照':n==='何稻禾'||n==='小禾'?'河童插畫頭貼':'寫實鵪鶉蛋頭貼'}" width="40" height="40"></button>`:''}
 
 const VN={
+  "firstBridge": {
+    "era": 2012,
+    "next": "workerIntro",
+    "backgrounds": ["writing-desk-2b.webp", "window-w2-closed.webp"],
+    "lines": [
+      ["沈秋", "先放著吧。還得想想，這兩張紙要怎麼處理。"],
+      ["", "你把筆擱在紙邊，抬起頭。北側的紅色窗簾仍然閉合著。"]
+    ]
+  },
   "workStart": {
     "era": 2018,
     "next": "worker",
     "lines": [
+      ["趙國雄", "353……就是這間吧。"],
+      ["", "你把工具箱和工單放在桌上。今天要處理的，是北側那片拉不順的紅色遮光簾。"],
       [
         "",
-        "2018年1月。你是維修人員趙國雄，今天來更換353語言教室北側的紅色遮光簾。"
+        "你推開353的門。北側那片紅色遮光簾，連白天也拉得密密實實。"
       ],
       [
         "賴老師",
@@ -822,7 +833,7 @@ const DRAFTS=[
 ];
 let vnUnlockAt=0;
 function startVN(key){state.vnKey=key;state.vnStep=0;vnUnlockAt=0;phase('vn')}
-function vn(){if(state.vnKey==='memory')return phoneMemoryBackground();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${block.pov==='he'?'he-intro':counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.background||(block.era===2018?'window-w2-closed.webp':'writing-desk-2b.webp')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
+function vn(){if(state.vnKey==='memory')return phoneMemoryBackground();const block=VN[state.vnKey]||VN.meeting,line=block.lines[state.vnStep]||['',''],actor=line[0]||block.narrator||(block.era===2018?'趙國雄':'沈秋'),counsel=state.vnKey.startsWith('counsel');return `<section class="vn-stage ${state.vnKey==='firstBridge'&&state.vnStep===1?'bridge-curtain-reveal':block.pov==='he'?'he-intro':counsel?'counsel-scene '+(state.vnStep===0?'scene-enter':''):''}"><img class="vn-backdrop ${counsel?'counsel-'+state.vnKey.slice(-1):''}" src="assets/${block.backgrounds?.[state.vnStep]||block.background||(block.era===2018?'window-w2-closed.webp':'writing-desk-2b.webp')}" alt="${counsel?'無人的校園諮商室，第三人稱鏡頭':'閉簾的353教室'}"><div class="vn-era">${block.label||(block.era===2018?'2018年1月 ／ 趙國雄・維修人員':'2012年 ／ 沈秋・353語言教室')}</div><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}${!line[0]?'<small>內心／敘述</small>':''}</div><p>${esc(line[1])}</p><div class="vn-next">${btn('vnnext','點擊以繼續','vn-continue')}</div></div></section>`}
 function vnDone(){if(/^workTopic[0-2]$/.test(state.vnKey)){const topic=+state.vnKey.slice(-1);if(!state.workTopics.includes(topic))state.workTopics.push(topic);save()}const next=VN[state.vnKey].next;if(VN[next]&&next!=='return2012'){startVN(next);return}if(next==='meeting'){startVN('meeting');return}if(next==='to2018'){if(state.workerFinished){startVN(state.confrontation?'return2012':'ending3');return}state.found=true;evidence('paper');phase('compare');return}if(next==='return2012'){state.workerFinished=true;startVN(state.confrontation?'return2012':'ending3');return}if(next==='epilogue'){state.hidden=true;beginEpilogue();return}phase(next)}
 function vnChoiceStage({actor='沈秋',era='2012年 ／ 沈秋',background='writing-desk-2b.webp',label,prompt,options,footer='',className=''}){return `<section class="vn-stage vn-choice-stage ${className}"><img class="vn-backdrop" src="assets/${background}" alt="353教室"><div class="vn-era">${esc(era)}</div><nav class="vn-topic-options" aria-label="${esc(label)}">${options}</nav><div class="vn-dialogue"><div class="vn-speaker">${named(actor)}</div><p>${esc(prompt)}</p>${footer}</div></section>`}
 function vnChoiceButton(action,text,selected=false){return btn(action,esc(text),'vn-topic-choice'+(selected?' selected':''))}
@@ -841,4 +852,5 @@ function endingChoice(){return vnChoiceStage({actor:'林心愛',label:'決定是
 // Author-supplied Fasebook訊息 voice message; staged locally, awaiting music before publication.
 const LIN_VOICE_SRC='assets/audio/lin-xinai-fine-voice-01.mp3';
 function fineFollowup(){return fineUI()}
+
 
