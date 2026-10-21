@@ -15,8 +15,8 @@ if(state.phase==='grading'&&!state.epilogueDone){state.phase='epilogue';state.ep
 
 let sceneTextHidden=false;const scenePanPositions={};let selected=-1,proof=-1,feedback='',good=false,roomDetail='',modal='',timerLast=Date.now(),lastInput=Date.now();const jobs=new Map();
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const INTRO_HTML=$('.introcard').innerHTML;
-function restartGame(){for(const timer of jobs.values())clearTimeout(timer);jobs.clear();clearTimeout(toast.timer);peekRun=null;vnUnlockAt=0;fineAvatarPreview='';for(const k of Object.keys(scenePanPositions))delete scenePanPositions[k];state=freshState();clearUI();modal='';timerLast=lastInput=Date.now();closeDesktopMenus();resetWindowPosition();$('.shell').classList.remove('minimized');$('.shell').classList.remove('maximized');$('.introcard').innerHTML=INTRO_HTML;$('#toast').style.display='none';document.querySelectorAll('#fine-notification,.era-date-card,.performance-transition').forEach(el=>el.remove());if(typeof GameAudio!=='undefined')GameAudio.reset();save();render();window.scrollTo(0,0);}
+const INTRO_HTML=$('#intro').innerHTML;
+function restartGame(){for(const timer of jobs.values())clearTimeout(timer);jobs.clear();clearTimeout(toast.timer);peekRun=null;vnUnlockAt=0;fineAvatarPreview='';for(const k of Object.keys(scenePanPositions))delete scenePanPositions[k];state=freshState();clearUI();modal='';timerLast=lastInput=Date.now();closeDesktopMenus();resetWindowPosition();$('.shell').classList.remove('minimized');$('.shell').classList.remove('maximized');$('#intro').innerHTML=INTRO_HTML;$('#toast').style.display='none';document.querySelectorAll('#fine-notification,.era-date-card,.performance-transition').forEach(el=>el.remove());if(typeof GameAudio!=='undefined')GameAudio.reset();save();render();window.scrollTo(0,0);}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){$('#savestatus').textContent='本次進度僅保留於開啟期間'}}
 function once(id,delay,fn){if(jobs.has(id))return;jobs.set(id,setTimeout(()=>{jobs.delete(id);fn()},delay))}
 function evidence(id){if(!state.evidence.includes(id))state.evidence.push(id)}function judge(id){if(!state.judgments.includes(id))state.judgments.push(id)}function record(t){state.history.push(t)}
@@ -97,8 +97,8 @@ if(id==='workfinish'){if(state.phase!=='workQuestions'||!workQuestionsDone())ret
 if(id==='ending1'||id==='ending2'){state.endingId=+id.slice(-1);startVN(id);return}
 if(id==='retrypaper'){state.retryCount++;state.draftErrors=0;state.draftPicked=[];state.draftFeedback='';state.draftPage=0;state.completed=false;state.confrontation=false;phase('draftCompare');return}
 switch(id){
-case 'intro-understood':if(state.begun||jobs.has('login'))return;state.introUnderstood=true;save();render();$('.introcard').scrollTop=0;return;
-case 'begin':{if(!state.introUnderstood||jobs.has('login'))return;$('.introcard').innerHTML='<div class="finelogin"><h1>fasebook</h1><p>沈秋</p><p class="loginstatus"><span class="loading-wheel"></span> 正在讀取手機訊息……</p><small>沈秋拿起自己的手機，帳號已保持登入。</small></div>';once('login',LOGIN_DELAY,()=>{state.begun=true;state.chat=2;state.app='sns';save();render()});return}
+case 'intro-understood':if(state.begun||jobs.has('login'))return;state.introUnderstood=true;save();render();$('#intro-work').scrollTop=0;return;
+case 'begin':{if(!state.introUnderstood||jobs.has('login'))return;$('#intro-work').innerHTML='<div class="finelogin"><h1>fasebook</h1><p>沈秋</p><p class="loginstatus"><span class="loading-wheel"></span> 正在讀取手機訊息……</p><small>沈秋拿起自己的手機，帳號已保持登入。</small></div>';once('login',LOGIN_DELAY,()=>{state.begun=true;state.chat=2;state.app='sns';save();render()});return}
 case 'teacher':state.fineContact='teacher';app('teacher');return;
 case 'ack':if(state.progress.teacher<4||state.ack)return;state.ack=true;break;
 case 'ppt':if(!state.teacherRead)return;app('ppt');return;

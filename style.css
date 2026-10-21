@@ -274,12 +274,12 @@ body{font-family:Tahoma,"Microsoft JhengHei","PingFang TC",sans-serif;font-size:
 .vn-stage .vn-dialogue .feedback,.vn-stage .vn-dialogue .hint{color:#f8f5ed!important;background:rgba(0,0,0,.18);border-color:#d9cfaf;text-shadow:0 1px 3px #000}.vn-stage .vn-dialogue .feedback:empty{display:none}.role-choice-stage .vn-next{gap:10px;flex-wrap:wrap}
 
 /* Approved F retinal afterimage. Keep the asset's translucent density. */
-.visual-afterimage{left:48%;top:13%;width:20%;height:62%;background:transparent url("assets/afterimage-f.png") center/contain no-repeat;filter:none;mix-blend-mode:normal;border-radius:0;clip-path:none;box-shadow:none;}
+.visual-afterimage{left:62.1%;top:35.1%;width:2.4%;height:7%;background:transparent url("assets/afterimage-f.png") center/contain no-repeat;filter:none;mix-blend-mode:normal;border-radius:0;clip-path:none;box-shadow:none;}
 .visual-afterimage::before,.visual-afterimage::after{content:none;display:none;}
-.scene-stage.peek-ready .visual-afterimage{opacity:1;animation:afterimage-f 3s linear forwards;}
-@keyframes afterimage-f{0%,50%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(-5px,3px)}}
-@media(prefers-reduced-motion:reduce){.scene-stage.peek-ready .visual-afterimage{animation:afterimage-f-still 3s linear forwards;}}
-@keyframes afterimage-f-still{0%,50%{opacity:1}100%{opacity:0}}
+.scene-stage.peek-ready .visual-afterimage{opacity:1;animation:afterimage-f 2.2s linear forwards;}
+@keyframes afterimage-f{0%,86.364%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(-1px,1px)}}
+@media(prefers-reduced-motion:reduce){.scene-stage.peek-ready .visual-afterimage{animation:afterimage-f-still 2.2s linear forwards;}}
+@keyframes afterimage-f-still{0%,86.364%{opacity:1}100%{opacity:0}}
 
 
 /* First era handoff: the same closed red curtain anchors the two lives. */
@@ -297,3 +297,9 @@ body{font-family:Tahoma,"Microsoft JhengHei","PingFang TC",sans-serif;font-size:
 /* Opening: two separate cards, with explicit acknowledgement before the TA briefing. */
 .intro-premise .dual-story-premise{border:0;padding:0;margin:30px 0;font-size:clamp(18px,2.3vw,22px)!important;line-height:2.3!important;color:#293d49!important}.intro-premise>.primary{min-height:46px;padding:10px 24px}.intro-premise{padding:8px 0}.intro-premise .eyebrow{color:#526b7b}
 @media(max-width:760px){.intro-premise .dual-story-premise{font-size:18px!important;line-height:2.1!important;margin:24px 0}}
+
+/* Each opening step is its own card. Hidden cards never share the layout. */
+#intro>#intro-premise[hidden],#intro>#intro-work[hidden]{display:none!important}
+#intro>.introcard{width:min(680px,calc(100vw - 36px));box-sizing:border-box;padding:38px 42px;border:1px solid #8297a2;border-radius:7px;background:#f4f5ef;box-shadow:0 12px 38px #0004}
+#intro>.intro-premise .dual-story-premise{margin:28px 0;line-height:2.2!important}
+@media(max-width:560px){#intro>.introcard{padding:26px 24px}}
