@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>353：下一位閱讀者｜來源對話內部測試</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+body{margin:0;background:#2f526f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
+.test-wrap{max-width:760px;margin:0 auto;padding:20px 10px 48px}
+.test-label{color:white;font-size:13px;opacity:.8;margin:0 0 10px 8px}
+.test-phone{background:#111;border:10px solid #151719;border-radius:34px;padding:12px;box-shadow:0 10px 35px rgba(0,0,0,.35)}
+.test-screen{background:#e9edf4;min-height:760px;overflow:hidden;border:2px solid #000}
+.fb-top-mini{height:86px;background:linear-gradient(#6f8fc5,#496aa5);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.fb-top-mini strong{font-size:38px;letter-spacing:-2px}.fb-top-mini button{background:#5c78ad;color:#fff;border:1px solid #314d7f;border-radius:7px;padding:12px 18px;font-size:18px}
+.chat-head{display:flex;align-items:center;gap:14px;padding:12px 18px;background:#f5f6f8;border-bottom:1px solid #aab5c5}.back{border:1px solid #9aa8bd;background:#f8fafc;border-radius:5px;padding:9px 14px;color:#49679a;font-size:18px}.chat-head b{font-size:22px}.online{margin-left:auto;color:#609044}
+.thread{padding:14px 16px 18px;min-height:570px}.row{margin:15px 0}.row.self{text-align:right}.who{font-size:14px;font-weight:700;color:#6b7482;margin:0 8px 6px}.bubble{display:inline-block;max-width:82%;text-align:left;background:#fff;border:1px solid #c5ccd7;border-radius:8px;padding:14px 16px;font-size:20px;line-height:1.55;box-shadow:0 1px 2px rgba(0,0,0,.08)}.self .bubble{background:#dfeafb;border-color:#abc0df}.self .who{color:#cf6428}
+.system{color:#929a8e;text-align:center;margin:18px 0;font-size:15px}.typing{font-size:15px;color:#7b8490;padding:8px 4px}.controls{padding:12px 16px 18px;border-top:1px solid #bcc5d2;background:#f2f4f7}.controls button{width:100%;font-size:18px;line-height:1.4;padding:14px;border:1px solid #aab6c7;border-radius:6px;background:white;color:#26394d}.controls button.primary{background:#5d7fb7;color:#fff;border-color:#45699f}
+.note{font-size:13px;color:#dfe7f0;margin:12px 8px 0;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="test-wrap">
+  <p class="test-label">內部測試：2012 Fasebook｜來源詢問流程</p>
+  <div class="test-phone"><div class="test-screen">
+    <div class="fb-top-mini"><strong>fasebook</strong><button>放下手機</button></div>
+    <div class="chat-head"><button class="back">‹ 聊天</button><b id="contact">許安純</b><span class="online">●</span></div>
+    <div class="thread" id="thread"></div>
+    <div class="controls" id="controls"></div>
+  </div></div>
+  <p class="note">此頁只用來測試這一段對話節奏與手動跳轉，不會修改正式版遊戲進度。</p>
+</div>
+<script>
+const thread=document.getElementById('thread'), controls=document.getElementById('controls'), contact=document.getElementById('contact');
+let stage=0;
+function row(name,text,self=false){const d=document.createElement('div');d.className='row'+(self?' self':'');d.innerHTML='<div class="who">'+name+'</div><div class="bubble"></div>';d.querySelector('.bubble').textContent=text;thread.appendChild(d);thread.scrollTop=thread.scrollHeight}
+function sys(t){const d=document.createElement('div');d.className='system';d.textContent=t;thread.appendChild(d)}
+function button(label,fn,primary=false){controls.innerHTML='';const b=document.createElement('button');b.textContent=label;if(primary)b.className='primary';b.onclick=fn;controls.appendChild(b)}
+function loadAn(){
+ contact.textContent='許安純';thread.innerHTML='';
+ row('沈秋','剛才逐段對照過，觀察的內容都一樣。可是現在看那張紙，「一個東西」卻像是「一個人」',true);
+ row('沈秋','Jamie，原來那張紙還在嗎？能再幫我看一下那行字嗎',true);
+ row('許安純','還在 我收到的是紙本 剛剛傳的是我用手機拍的照片');
+ row('許安純','上面是「一個東西」 你抄完不是也對過嗎');
+ button('查看 Bailey 的對話 →',loadHe,true);
+}
+function loadHe(){
+ contact.textContent='何稻禾';thread.innerHTML='';controls.innerHTML='';
+ row('沈秋','Bailey，你能幫我查查看原本發給你這封信的來源是誰嗎？',true);
+ setTimeout(()=>{row('何稻禾','好，我查查看'); controls.innerHTML='<div class="typing">Bailey 正在查詢……</div>';
+   setTimeout(()=>{sys('過了一會兒，何稻禾傳來回覆。');row('何稻禾','可能是系上的一個學姊，我給你她的FB，你看要不要自己聯繫她');button('查看林心愛的 Fasebook →',loadLin,true)},1700);
+ },700);
+}
+function loadLin(){
+ contact.textContent='林心愛';thread.innerHTML='';controls.innerHTML='';
+ row('沈秋','學姊你好，我是沈秋。Bailey 給我你的 Fasebook，我想跟你確認一封和 353 有關的信。',true);
+ row('林心愛','你手上有哪個版本？先傳那段給我。');
+ row('沈秋','同一張紙，我剛寫完、對照時看的是「東西」，後來再讀卻變成「人」',true);
+ row('林心愛','那個位置不是……裡面。字打出來不對，我錄一段給你。');
+ sys('從這裡接回原本劇情。');
+ button('重新測試這段',loadAn);
+}
+loadAn();
+</script>
+</body></html>
