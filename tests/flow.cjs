@@ -101,3 +101,53 @@ const hideChoice=setup({begun:true,phase:'studentRoom',hidden:false,coverClosed:
 
 
 const introCards=setup();assert.equal(introCards.run('state.introUnderstood'),false);assert.equal(introCards.dom('#intro-premise').hidden,false);assert.equal(introCards.dom('#intro-work').hidden,true);introCards.run("act('begin')");introCards.advance(5000);assert.equal(introCards.run('state.begun'),false);introCards.run("act('intro-understood')");assert.equal(introCards.dom('#intro-premise').hidden,true);assert.equal(introCards.dom('#intro-work').hidden,false);assert.equal(introCards.run('state.begun'),false);const introRestored=setup(JSON.parse(introCards.disk['353-local-v11']));assert.equal(introRestored.dom('#intro-work').hidden,false);introRestored.run("act('begin')");introRestored.advance(5000);assert.equal(introRestored.run('state.begun'),true);introRestored.run('restartGame()');assert.equal(introRestored.run('state.introUnderstood'),false);assert.equal(introRestored.dom('#intro-premise').hidden,false);assert.equal(introRestored.dom('#intro-work').hidden,true);assert(!fs.readFileSync(base+'app.js','utf8').includes('離線版不會上傳統計'));console.log('PASS opening cards: premise acknowledgement precedes TA briefing; reload and restart preserve the correct step; obsolete statistics note removed.');
+
+// The first outgoing message to Lin must unlock her thread before it is sent.
+// Follow rendered navigation rather than calling vnnext past an unreachable button.
+const sourceContact=setup(),sc=sourceContact.run;
+sc("state.begun=true;state.posterDone=true;state.posterReceipt=true;startVN('memory');state.vnStep=7;state.followContact='ah';render()");
+assert.equal(sc("fineKeys().includes('lin')"),false);
+sourceContact.advance(1700);
+assert.equal(sc('state.vnStep'),8);
+const stuckSave=JSON.parse(sourceContact.disk['353-local-v11']);
+function openLinFromRenderedControl(t){
+  for(const contact of ['ah','an','teacher','group']){
+    t.run(`act('finechat:${contact}')`);
+    assert(t.dom('#shen-phone-layer').innerHTML.includes('data-act="finechat:lin"'));
+    t.run("act('finechat:lin')");
+    assert.equal(t.run('fineSelected()'),'lin');
+    assert(t.dom('#shen-phone-layer').innerHTML.includes('傳送：學姊你好'));
+    assert.equal(t.run('state.vnStep'),8);
+  }
+  t.run("act('vnnext')");
+  assert.equal(t.run('state.vnStep'),9);
+  t.advance(1700);
+  assert.equal(t.run('state.vnStep'),10);
+  assert(t.dom('#shen-phone-layer').innerHTML.includes('你手上有哪個版本'));
+}
+openLinFromRenderedControl(sourceContact);
+const resumedContact=setup(stuckSave);
+openLinFromRenderedControl(resumedContact);
+console.log('PASS source contact: first Lin thread opens from every contact, sends introduction, receives reply, and resumes stuck saves without reset.');
+
+// Focused computer work hides both the phone and its launcher, including old open-phone saves.
+for(const [phaseName,appName] of [['desktop','ppt'],['desktop','review'],['poster','sns']]){
+ const focused=setup({begun:true,phase:phaseName,app:appName,teacherRead:true,phoneOpen:true});
+ assert.equal(focused.dom('#shen-phone-launcher').hidden,true);
+ assert.equal(focused.dom('#shen-phone-layer').innerHTML,'');
+ focused.run("act('phone:open')");
+ assert.equal(focused.dom('#shen-phone-layer').innerHTML,'');
+ assert.equal(focused.run('state.phase'),phaseName);
+ assert.equal(focused.run('state.app'),appName);
+}
+const focusHandoff=setup({begun:true,phase:'desktop',app:'review',teacherRead:true,phoneOpen:false,reviewed:[0,1,2,3,4]});
+focusHandoff.run("act('submitmaterials')");
+assert(focusHandoff.dom('#shen-phone-layer').innerHTML.includes('shen-phone-handset'));
+assert.equal(focusHandoff.run('fineSelected()'),'teacher');
+const posterHandoff=setup({begun:true,phase:'poster',app:'sns',phoneOpen:false,posterBriefCount:3});
+posterHandoff.run("act('pfinish')");
+assert(posterHandoff.dom('#shen-phone-layer').innerHTML.includes('shen-phone-handset'));
+assert.equal(posterHandoff.run('fineSelected()'),'group');
+posterHandoff.advance(1700);
+assert.equal(posterHandoff.run('state.posterReceipt'),true);
+console.log('PASS focused work: phone hidden in PPT, correction and poster including old saves; submission and poster handoff still open the correct chats.');
